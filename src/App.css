@@ -2,6 +2,14 @@
   text-align: center;
 }
 
+.App-dv:last-child {
+  position:sticky;
+  bottom:0;
+}
+
+.App-header {
+  pointer-events: all;
+}
 .App-logo {
   /* height: 40vmin; */
   position: absolute;
