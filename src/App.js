@@ -1,3 +1,5 @@
+// noinspection JSValidateTypes
+
 import React, { useState, useEffect, useRef } from 'react';
 import { v4 as uuidv4 } from "uuid";
 import './App.css';
@@ -10,6 +12,7 @@ import DspSections from './DspSections';
 // Component Messages will allow us to add message-divs to 
 // our messagesWrapper container and number them, all-the-while
 // keeping our focus on the last message.
+// eslint-disable-next-line react/prop-types
 const Messages = ({ messages }) => {
   const messagesEndRef = useRef(null);
   const scrollToBottom = () => {
@@ -20,6 +23,7 @@ const Messages = ({ messages }) => {
 
   return (
     <div id="message-wrapper" style={{"text-align": "left"}} className="messagesWrapper  col-sm- bg-dark border text-white">
+      {/* eslint-disable-next-line react/prop-types */}
       {messages.map(message => (
         <span key={message}>{message}</span>
       ))}
@@ -27,7 +31,6 @@ const Messages = ({ messages }) => {
     </div>
   );
 };
-
 
 function App() {
 
@@ -46,16 +49,21 @@ const sampleMsgs = [
   // also providing a way to append new messages to the wrapper
   const [messages, setMessages] = useState([]);
   const [msgCount, setmsgCount] = useState(1);
-  const [msg, setMsg] = useState([<div>{sampleMsgs[0]}</div>]);
+  const [dspMsgCount, setdspMsgCount] = useState(1);
+  // eslint-disable-next-line no-unused-vars
+  const [msg, setMsg] = useState([]);
+  // const [msg, setMsg] = useState([<div>{sampleMsgs[0]}</div>]);
 
+  // eslint-disable-next-line no-unused-vars
   const addMessages = () => {
     setMessages(m => [...m, '('+msgCount+') '+uuidv4()]);
     setmsgCount(msgCount + 1);
   };
 
   const SampleMsgFeed = () => {
-    setMessages(m => [...m, '('+msgCount+') '+sampleMsgs[msgCount]]);
-    setmsgCount((msgCount + 1) % 8);
+    setMessages(m => [...m, 'Test'+sampleMsgs[msgCount]+':('+uuidv4()+')']);
+    setdspMsgCount((dspMsgCount + 1) % 8);
+    setmsgCount(msgCount + 1);
   };
 
   return (
@@ -63,18 +71,40 @@ const sampleMsgs = [
       <header className="App-header">
         <img src={logo4} className="App-logo" alt="logo" />
         <Container>
+          <Stack direction="horizontal" gap={2}>
+            <div id="sathdr" className="bg-dark p2 border text-white">TCP://localhost:2947 </div>
+            <div id="sentencesrxd" className="bg-dark p10 border text-white">Sentences: </div>
+          </Stack>
           <Stack gap={2}>
-            <div id="sathdr" className="bg-dark p2 border text-white">Satellite Header</div>
             <div id="timelatlon" className="bg-dark p2 border text-white">Satellite Time/Lat/Lon</div>
-            <div id="sentencesrxd" className="bg-dark p2 border text-white">(Sentences)</div>
           </Stack>
           <DspSections/>
           <Messages messages={messages} />
         </Container>
-        <button className="addButton" cannedMsg={sampleMsgs[0]} onClick={SampleMsgFeed}>('punch' me for generated message test)</button>
+        <button className="addButton"  onClick={SampleMsgFeed}>~</button>
+        {/*<button className="addButton" cannedMsg={sampleMsgs[0]} onClick={SampleMsgFeed}>~</button>*/}
       </header>
     </div>
   );
 }
 
 export default App;
+
+// gps.on("data", async data => {
+//     if(data.type == "GGA") {
+//         if(data.quality != null) {
+//             let address = await getAddressInformation(data.lat, data.lon);
+//             console.log(address.Label + " [" + data.lat + ", " + data.lon + "]");
+//         } else {
+//             console.log("no gps fix available");
+//         }
+//     }
+// });
+
+// parser.on("data", data => {
+//     try {
+//         gps.update(data);
+//     } catch (e) {
+//         throw e;
+//     }
+// });
