@@ -4,6 +4,11 @@ import './index.css';
 import App from './App';
 import { builder } from '@builder.io/react';
 
+// Notice that this file layout was originally generated 'by hand', then 'tweaked a couple of times'
+//using builder.io and then revamped, again using builder.io import.
+
+// Additional features to be added as 'time permits':
+//
 // import serialport from 'serialport';
 // import parser-readline from 'serialport';
 // import GPS from 'gps';
